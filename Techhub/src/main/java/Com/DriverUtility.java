@@ -20,9 +20,10 @@ public class DriverUtility {
     private DriverUtility() throws Exception {
         System.setProperty("webdriver.chrome.driver", OpenBrowser.CHROME_DRIVER_PATH);
         Properties prop = new Properties();
+        String file = "src/main/resources/object.properties";
 
         FileInputStream FileInputStream = new FileInputStream(
-                new File("src/main/resources/object.properties"));
+                new File(file));
         prop.load(FileInputStream);
         urlKeys = new HashMap<>();
 
@@ -35,10 +36,7 @@ public class DriverUtility {
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-        options.addArguments("--no-sandbox");
 
-
-        // urlKeys.put(OpenBrowser.CLICK_BUTTON_KEY, prop.getProperty(OpenBrowser.CLICK_BUTTON_KEY));
         urlKeys.put(OpenBrowser.FIRST_NAME_INPUT_KEY, prop.getProperty(OpenBrowser.FIRST_NAME_INPUT_KEY));
         urlKeys.put(OpenBrowser.LAST_NAME_INPUT_KEY, prop.getProperty(OpenBrowser.LAST_NAME_INPUT_KEY));
         urlKeys.put(OpenBrowser.ENTER_EMAIL_INPUT_KEY, prop.getProperty(OpenBrowser.ENTER_EMAIL_INPUT_KEY));
@@ -53,17 +51,14 @@ public class DriverUtility {
         urlKeys.put(OpenBrowser.DISPLAY_KEY, prop.getProperty(OpenBrowser.DISPLAY_KEY));
 
         driver = new ChromeDriver(options);
-
-       // driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
 
     }
 
     boolean performTest(SheetColumnHeader sheetColumnHeader) throws InterruptedException, IOException {
         try {
-
 
             driver.get(OpenBrowser.URL1);
             System.out.println("**Launching Chrome Browser**");
@@ -97,16 +92,13 @@ public class DriverUtility {
 
             String month_year = months[calendar.get(Calendar.MONTH)]+" "+calendar.get(Calendar.YEAR);
 
-
             while(!driver.findElement(By.xpath(urlKeys.get(OpenBrowser.MONTH_YEAR_BUTTON_KEY))).getText().contains(month_year))
             {
                 driver.findElement(By.xpath(urlKeys.get(OpenBrowser.SIDE_BUTTON_KEY))).click();
             }
 
-
             List<WebElement> dates= driver.findElements(By.cssSelector(urlKeys.get(OpenBrowser.DAY_BUTTON_KEY)));
             int count=driver.findElements(By.cssSelector(urlKeys.get(OpenBrowser.DAY_BUTTON_KEY))).size();
-
 
             for(int i=0;i<count;i++)
             {
@@ -118,8 +110,6 @@ public class DriverUtility {
                 }
 
             }
-
-           takeScreenshot("last1");
 
             //handle send button
             driver.findElement(By.cssSelector(urlKeys.get(OpenBrowser.SEND_INFO_BUTTON_KEY))).submit();
