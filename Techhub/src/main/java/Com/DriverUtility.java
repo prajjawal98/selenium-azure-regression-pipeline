@@ -32,10 +32,7 @@ public class DriverUtility {
         options.addArguments("--window-size=800,600");
         options.addArguments("--remote-debugging-port=9222");
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        options.addArguments("disable-infobars"); // disabling infobars
-        options.addArguments("--disable-extensions"); // disabling extensions
-        options.addArguments("--disable-gpu"); // applicable to windows os only
-        options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+        options.addArguments("--disable-extensions","--disable-gpu","disable-infobars"); // disabling extensions, applicable to windows os only, disabling infobars
 
         urlKeys.put(OpenBrowser.FIRST_NAME_INPUT_KEY, prop.getProperty(OpenBrowser.FIRST_NAME_INPUT_KEY));
         urlKeys.put(OpenBrowser.LAST_NAME_INPUT_KEY, prop.getProperty(OpenBrowser.LAST_NAME_INPUT_KEY));
@@ -52,9 +49,7 @@ public class DriverUtility {
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-
-
+        driver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
     }
 
     boolean performTest(SheetColumnHeader sheetColumnHeader) throws InterruptedException, IOException {
@@ -121,31 +116,21 @@ public class DriverUtility {
         }
         return true;
 
-
     }
 
 
     void shutdownDriver() {
-
         driver.quit();
-
         //driver.close();
         System.out.println("I am closing Browser ");
     }
 
-
     public static void takeScreenshot( String filename) throws IOException {
         File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(file, new File(".//test-output//Screenshot//" + filename + ".png"));
-
     }
 
     public static DriverUtility getInstance() throws Exception {
         return new DriverUtility();
     }
-
-
-
-
-
 }
