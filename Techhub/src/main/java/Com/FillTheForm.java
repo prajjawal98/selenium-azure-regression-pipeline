@@ -35,7 +35,7 @@ public class FillTheForm {
         if(Content.map.get(sheetColumnHeader).getExpectedResult().equalsIgnoreCase("pass")){
             Assert.assertEquals(true, testPassed);
         }else{
-            Assert.assertEquals(false, testPassed);
+            Assert.assertEquals(false, testFailed);
 
         }
 
