@@ -29,7 +29,10 @@ public class DriverUtility {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); //for headless mode
-        options.addArguments("--window-size=800,600","--disable-gpu","disable-infobars","--remote-debugging-port=9222");
+        options.addArguments("--disable-gpu");
+        options.addArguments("disable-infobars");
+        options.addArguments("--remote-debugging-port=9222");
+        options.addArguments("--window-size=800,600");
         options.addArguments("start-maximized"); // open Browser in maximized mode
         options.addArguments("--disable-extensions"); // disabling extensions, applicable to windows os only, disabling infobars
 
@@ -109,7 +112,7 @@ public class DriverUtility {
             driver.findElement(By.cssSelector(urlKeys.get(OpenBrowser.SEND_INFO_BUTTON_KEY))).submit();
             //display all details form
             driver.findElement(By.cssSelector(urlKeys.get(OpenBrowser.DISPLAY_KEY))).isDisplayed();
-            Thread.sleep(5000);
+             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         } catch (Exception p) {
             return false;
         }
